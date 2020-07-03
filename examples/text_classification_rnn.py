@@ -4,8 +4,6 @@
 #Text classification with an RNN
 #This text classification tutorial trains a [recurrent neural network](https://developers.google.com/machine-learning/glossary/#recurrent_neural_network) on the [IMDB large movie review dataset](http://ai.stanford.edu/~amaas/data/sentiment/) for sentiment analysis.
 
-from kubeflow import fairing
-from kubeflow.fairing import TrainJob
 import importlib
 import argparse
 import tensorflow as tf
@@ -57,39 +55,13 @@ class MovieReviewClassification(object):
         print('Test Accuracy: {}'.format(test_acc))
 
 if __name__ == "__main__":
-    
-    if USING_DOCKER:
-        parser = argparse.ArgumentParser(description="Using Katib for hyperparameter tuning")
-        parser.add_argument("-lr", "--learning_rate", default="1e-4", help="Learning rate for the Keras optimizer")
-        parser.add_argument("-bsz", "--batch_size", default="64", help="Batch size for each step of learning")
-        parser.add_argument("-e", "--epochs", default="2", help="Number of epochs in each trial")
-        args = parser.parse_args()
-        learning_rate = float(args.learning_rate)
-        batch_size = float(args.batch_size)
-        epochs = float(args.epochs)
-        model = MovieReviewClassification(learning_rate, batch_size, epochs, local_data_dir="~/tensorflow_datasets")
-        model.train()
-        
-    else:
-        #using Fairing in Jupyter
-        GCP_PROJECT = fairing.cloud.gcp.guess_project_name()
-        DOCKER_REGISTRY = 'gcr.io/{}/fairing-job'.format(GCP_PROJECT)
-        BuildContext = None
-        FAIRING_BACKEND = 'KubeflowGKEBackend'
-        BackendClass = getattr(importlib.import_module('kubeflow.fairing.backends'), FAIRING_BACKEND)
-
-        data_files = ['tensorflow_datasets/downloads/ai.stanfor.edu_amaas_sentime_aclImdb_v1xA90oY07YfkP66HhdzDg046Ll8Bf3nAIlC6Rkj0WWP4.tar.gz', 
-                      'tensorflow_datasets/downloads/ai.stanfor.edu_amaas_sentime_aclImdb_v1xA90oY07YfkP66HhdzDg046Ll8Bf3nAIlC6Rkj0WWP4.tar.gz.INFO',
-                      'tensorflow_datasets/imdb_reviews/subwords8k/1.0.0/dataset_info.json',
-                      'tensorflow_datasets/imdb_reviews/subwords8k/1.0.0/imdb_reviews-test.tfrecord-00000-of-00001',
-                      'tensorflow_datasets/imdb_reviews/subwords8k/1.0.0/imdb_reviews-train.tfrecord-00000-of-00001',
-                      'tensorflow_datasets/imdb_reviews/subwords8k/1.0.0/imdb_reviews-unsupervised.tfrecord-00000-of-00001',
-                      'tensorflow_datasets/imdb_reviews/subwords8k/1.0.0/label.labels.txt',
-                      'tensorflow_datasets/imdb_reviews/subwords8k/1.0.0/text.text.subwords',
-                      'requirements.txt']
-        
-        train_job = TrainJob(MovieReviewClassification,
-                              input_files=data_files, 
-                              docker_registry=DOCKER_REGISTRY, 
-                              backend=BackendClass(build_context_source=BuildContext))
-        train_job.submit()
+    parser = argparse.ArgumentParser(description="Using Katib for hyperparameter tuning")
+    parser.add_argument("-lr", "--learning_rate", default="1e-4", help="Learning rate for the Keras optimizer")
+    parser.add_argument("-bsz", "--batch_size", default="64", help="Batch size for each step of learning")
+    parser.add_argument("-e", "--epochs", default="2", help="Number of epochs in each trial")
+    args = parser.parse_args()
+    learning_rate = float(args.learning_rate)
+    batch_size = float(args.batch_size)
+    epochs = float(args.epochs)
+    model = MovieReviewClassification(learning_rate, batch_size, epochs, local_data_dir="~/tensorflow_datasets")
+    model.train()
