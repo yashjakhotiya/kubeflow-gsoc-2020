@@ -10,8 +10,6 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 import os
 
-USING_DOCKER = True
-
 def data_loader(hyperparams, local_data_dir):
     dataset, info = tfds.load('imdb_reviews/subwords8k', 
                               data_dir=local_data_dir,
@@ -55,13 +53,13 @@ class MovieReviewClassification(object):
         print('Test Accuracy: {}'.format(test_acc))
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Using Katib for hyperparameter tuning")
+    parser = argparse.ArgumentParser()
     parser.add_argument("-lr", "--learning_rate", default="1e-4", help="Learning rate for the Keras optimizer")
     parser.add_argument("-bsz", "--batch_size", default="64", help="Batch size for each step of learning")
     parser.add_argument("-e", "--epochs", default="2", help="Number of epochs in each trial")
     args = parser.parse_args()
     learning_rate = float(args.learning_rate)
-    batch_size = float(args.batch_size)
-    epochs = float(args.epochs)
-    model = MovieReviewClassification(learning_rate, batch_size, epochs, local_data_dir="~/tensorflow_datasets")
+    batch_size = int(args.batch_size)
+    epochs = int(args.epochs)
+    model = MovieReviewClassification(learning_rate, batch_size, epochs, local_data_dir="/app/tensorflow_datasets")
     model.train()
