@@ -12,7 +12,7 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 import os
 
-USING_KATIB = False
+USING_DOCKER = True
 
 def data_loader(hyperparams, local_data_dir):
     dataset, info = tfds.load('imdb_reviews/subwords8k', 
@@ -58,7 +58,7 @@ class MovieReviewClassification(object):
 
 if __name__ == "__main__":
     
-    if USING_KATIB:
+    if USING_DOCKER:
         parser = argparse.ArgumentParser(description="Using Katib for hyperparameter tuning")
         parser.add_argument("-lr", "--learning_rate", default="1e-4", help="Learning rate for the Keras optimizer")
         parser.add_argument("-bsz", "--batch_size", default="64", help="Batch size for each step of learning")
@@ -71,7 +71,7 @@ if __name__ == "__main__":
         model.train()
         
     else:
-        #using Fairing
+        #using Fairing in Jupyter
         GCP_PROJECT = fairing.cloud.gcp.guess_project_name()
         DOCKER_REGISTRY = 'gcr.io/{}/fairing-job'.format(GCP_PROJECT)
         BuildContext = None
