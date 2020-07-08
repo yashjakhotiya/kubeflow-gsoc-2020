@@ -44,13 +44,19 @@ class MovieReviewClassification(object):
         model.compile(loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
                       optimizer=tf.keras.optimizers.Adam(self.learning_rate),
                       metrics=['accuracy'])
+        #steps per epoch are reduced here to train on limited resources
+        #you are free to remove this argument
         history = model.fit(self.train_dataset, epochs=self.epochs,
+                            steps_per_epoch=10,
                             validation_data=self.test_dataset,
-                            validation_steps=30)
+                            validation_steps=30,
+                            verbose=0)
         model.save(self.model_file)
-        test_loss, test_acc = model.evaluate(self.test_dataset)
-        print('Test Loss: {}'.format(test_loss))
-        print('Test Accuracy: {}'.format(test_acc))
+        #steps are reduced here to test on limited resources
+        #you are free to remove this argument
+        test_loss, test_acc = model.evaluate(self.test_dataset, steps=10)
+        print('val_loss={}'.format(test_loss))
+        print('accuracy={}'.format(test_acc))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
