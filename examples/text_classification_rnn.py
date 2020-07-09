@@ -32,7 +32,7 @@ def define_model(encoder):
     return model
 
 class MovieReviewClassification(object):
-    def __init__(self, learning_rate=1e-4, batch_size=64, epochs=2, local_data_dir='/app/tensorflow_datasets'):
+    def __init__(self, learning_rate=0.01, batch_size=64, epochs=2, local_data_dir='/app/tensorflow_datasets'):
         hyperparams = {'BUFFER_SIZE': 10000, 'BATCH_SIZE': batch_size}
         self.model_file = "lstm_trained"
         self.learning_rate = learning_rate
@@ -46,17 +46,18 @@ class MovieReviewClassification(object):
                       metrics=['accuracy'])
         #steps per epoch are reduced here to train on limited resources
         #you are free to remove this argument
-        history = model.fit(self.train_dataset, epochs=self.epochs,
-                            steps_per_epoch=10,
+        history = model.fit(self.train_dataset, 
+                            epochs=self.epochs,
+                            shuffle=True,
+                            steps_per_epoch=30,
                             validation_data=self.test_dataset,
                             validation_steps=30,
                             verbose=0)
         model.save(self.model_file)
-        #steps are reduced here to test on limited resources
-        #you are free to remove this argument
-        test_loss, test_acc = model.evaluate(self.test_dataset, steps=10)
-        print('val_loss={}'.format(test_loss))
-        print('accuracy={}'.format(test_acc))
+        val_losses = history.history['val_loss']
+        val_accuracies = history.history['val_accuracy']
+        for epoch, val_loss, val_accuracy in zip(range(self.epochs), val_losses, val_accuracies):
+          print("epoch {}:\nval_loss={:.2f}\nval_accuracy={:.2f}\n".format(epoch + 1, val_loss, val_accuracy))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
