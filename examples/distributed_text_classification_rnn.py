@@ -70,5 +70,5 @@ if __name__ == "__main__":
     learning_rate = float(args.learning_rate)
     batch_size = int(args.batch_size)
     epochs = int(args.epochs)
-    model = MovieReviewClassification(learning_rate, batch_size, epochs, local_data_dir="~/tensorflow_datasets")
+    model = MovieReviewClassification(learning_rate, batch_size, epochs, local_data_dir="/app/tensorflow_datasets")
     model.train()
