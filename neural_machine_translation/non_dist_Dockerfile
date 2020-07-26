@@ -6,4 +6,4 @@ WORKDIR '/app/'
 
 RUN pip3 install --no-cache-dir -r /app/requirements.txt
 
-ENTRYPOINT ["python3", "/app/distributed_nmt_with_attention.py"]
+ENTRYPOINT ["python3", "/app/nmt_with_attention.py"]
