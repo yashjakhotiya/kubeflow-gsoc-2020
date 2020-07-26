@@ -240,7 +240,6 @@ class NeuralMachineTranslation(object):
 										 decoder=self.decoder)
 
 		for epoch in range(self.epochs):
-			start = time.time()
 			enc_hidden = self.encoder.initialize_hidden_state()
 			total_loss = 0
 			
@@ -248,14 +247,11 @@ class NeuralMachineTranslation(object):
 				batch_loss = train_step(inp, targ, enc_hidden, optimizer, self.encoder, 
 					self.decoder, self.attention_layer, self.targ_lang, self.hyperparams)
 				total_loss += batch_loss
-				if batch % 10 == 0:
-					print('Epoch {} Batch {} Loss {:.4f}'.format(epoch + 1, batch, batch_loss.numpy()))
 			
-		# saving (checkpoint) the model every 2 epochs
+			# saving (checkpoint) the model every 2 epochs
 			if (epoch + 1) % 2 == 0:
 				checkpoint.save(file_prefix = checkpoint_prefix)
-			print('Epoch {} Loss {:.4f}'.format(epoch + 1, total_loss / self.steps_per_epoch))
-			print('Time taken for 1 epoch {} sec\n'.format(time.time() - start))
+			print("epoch {}:\nloss={:.2f}\n".format(epoch + 1, total_loss / self.steps_per_epoch))
 
 	def translate(sentence):
 		max_length_inp, max_length_targ = self.max_length_inp, self.max_length_targ
