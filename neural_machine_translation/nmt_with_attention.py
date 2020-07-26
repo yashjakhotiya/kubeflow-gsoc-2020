@@ -152,7 +152,7 @@ def load_dataset(path, num_examples=None):
 
 def data_loader(hyperparams):
 	# Download the file
-	data_dir = os.path.join(os.getcwd(), 'dataset')
+	data_dir = os.path.join(os.getcwd(), 'app', 'dataset')
 	data_url = 'http://storage.googleapis.com/download.tensorflow.org/data/spa-eng.zip'
 	path_to_zip = tf.keras.utils.get_file(os.path.join(data_dir, 'spa-eng.zip'), origin=data_url, extract=True)
 	path_to_file = os.path.join(os.path.dirname(path_to_zip), "spa-eng", "spa.txt")
