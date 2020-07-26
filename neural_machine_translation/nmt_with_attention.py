@@ -152,6 +152,7 @@ def load_dataset(path, num_examples=None):
 
 def data_loader(hyperparams):
 	# Download the file
+	data_dir = os.path.join(os.getcwd(), 'dataset')
 	data_url = 'http://storage.googleapis.com/download.tensorflow.org/data/spa-eng.zip'
 	path_to_zip = tf.keras.utils.get_file(os.path.join(data_dir, 'spa-eng.zip'), origin=data_url, extract=True)
 	path_to_file = os.path.join(os.path.dirname(path_to_zip), "spa-eng", "spa.txt")
@@ -220,7 +221,7 @@ def train_step(inp, targ, enc_hidden, optimizer, encoder, decoder, attention_lay
 
 class NeuralMachineTranslation(object):
 
-	def __init__(self, learning_rate=0.01, batch_size=64, epochs=2, num_examples=3000, test_size=0.2, data_dir='/dataset'):
+	def __init__(self, learning_rate=0.01, batch_size=64, epochs=2, num_examples=3000, test_size=0.2):
 		self.hyperparams = {'BATCH_SIZE': batch_size, 'NUM_EXAMPLES': num_examples, 'TEST_SIZE': test_size}
 		self.model_file = "lstm_trained"
 		self.learning_rate = learning_rate
@@ -292,6 +293,5 @@ if __name__ == "__main__":
     batch_size = int(args.batch_size)
     epochs = int(args.epochs)
     num_examples = int(args.num_examples)
-    data_dir = os.path.join(os.getcwd(), 'app', 'dataset')
-    model = NeuralMachineTranslation(learning_rate, batch_size, epochs, num_examples, data_dir)
+    model = NeuralMachineTranslation(learning_rate, batch_size, epochs, num_examples)
     model.train()
