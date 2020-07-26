@@ -220,7 +220,7 @@ def train_step(inp, targ, enc_hidden, optimizer, encoder, decoder, attention_lay
 
 class NeuralMachineTranslation(object):
 
-	def __init__(self, learning_rate=0.01, batch_size=64, epochs=2, num_examples=3000, test_size=0.2, data_dir='/app/dataset'):
+	def __init__(self, learning_rate=0.01, batch_size=64, epochs=2, num_examples=3000, test_size=0.2, data_dir='/dataset'):
 		self.hyperparams = {'BATCH_SIZE': batch_size, 'NUM_EXAMPLES': num_examples, 'TEST_SIZE': test_size}
 		self.model_file = "lstm_trained"
 		self.learning_rate = learning_rate
