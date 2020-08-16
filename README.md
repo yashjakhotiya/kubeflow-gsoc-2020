@@ -23,6 +23,8 @@ the training data and hosts it on [gcr.io](gcr.io).
 6. `tfjob-with-python-sdk.ipynb` - Jupyter Notebook which launches a [TFJob](https://www.kubeflow.org/docs/components/training/tftraining/). TFJobs are used 
 for distributed training over a Kuberenetes backend. This notebook uses the Docker image built from the distributed version of our core training code.
 
+7. `tekton-pipeline-with-python-sdk.ipynb` - Jupyter notebook which bundles Katib hyperparameter tuning and TFJob distributed training into one Kubeflow pipeline with a Tekton backend
+
 ### Neural Machine Translation 
 Based on another [Tensorflow tutorial](https://www.tensorflow.org/tutorials/text/nmt_with_attention), this machine learning task aims at translating Spanish text to English. Building on this tutorial, this sample hosts the following,
 1. `nmt_with_attention.py` - The core training code upon which all subsequent examples showing Kubeflow functionalities are based.
@@ -40,3 +42,5 @@ Docker image of your training code in a container registry. This sample has used
 
 6. `tfjob-with-python-sdk.ipynb` - Jupyter Notebook which launches a [TFJob](https://www.kubeflow.org/docs/components/training/tftraining/). TFJobs are used 
 for distributed training over a Kuberenetes backend. This notebook uses the Docker image built from the distributed version of our core training code.
+
+7. `tekton-pipeline-with-python-sdk.ipynb` - Jupyter notebook which bundles Katib hyperparameter tuning and TFJob distributed training into one Kubeflow pipeline with a Tekton backend
